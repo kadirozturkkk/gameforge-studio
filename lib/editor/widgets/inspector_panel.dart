@@ -162,6 +162,7 @@ class _ObjectInspector extends StatelessWidget {
           Expanded(
             child: DropdownButtonFormField<SpriteShape>(
               value: comp.shape,
+              isExpanded: true,
               decoration: InputDecoration(labelText: s.shape),
               items: [
                 for (final sh in SpriteShape.values)
@@ -174,7 +175,7 @@ class _ObjectInspector extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           SizedBox(
-            width: 110,
+            width: 96,
             child: NumberCommitField(
                 value: comp.sortingOrder.toDouble(),
                 label: s.sortingOrder,

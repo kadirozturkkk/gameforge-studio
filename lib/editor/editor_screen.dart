@@ -517,7 +517,7 @@ class _EditorScreenState extends State<EditorScreen> with WidgetsBindingObserver
     return Row(children: [
       SizedBox(
         width: 250,
-        child: Container(
+        child: Material(
           color: GfColors.panel,
           child: Column(children: [
             _panelHeader(s.hierarchy),
@@ -530,7 +530,7 @@ class _EditorScreenState extends State<EditorScreen> with WidgetsBindingObserver
       const VerticalDivider(width: 1),
       SizedBox(
         width: 310,
-        child: Container(
+        child: Material(
           color: GfColors.panel,
           child: Column(children: [
             _panelHeader(s.inspector),
@@ -563,13 +563,15 @@ class _EditorScreenState extends State<EditorScreen> with WidgetsBindingObserver
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeOut,
         height: _bottomPanelOpen ? panelHeight : 0,
-        color: GfColors.panel,
-        child: _bottomPanelOpen
-            ? IndexedStack(index: _bottomTab, children: [
-                HierarchyPanel(controller: _c),
-                InspectorPanel(controller: _c),
-              ])
-            : const SizedBox.shrink(),
+        child: Material(
+          color: GfColors.panel,
+          child: _bottomPanelOpen
+              ? IndexedStack(index: _bottomTab, children: [
+                  HierarchyPanel(controller: _c),
+                  InspectorPanel(controller: _c),
+                ])
+              : const SizedBox.shrink(),
+        ),
       ),
     ]);
   }
