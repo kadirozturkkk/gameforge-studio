@@ -119,13 +119,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
     await _guard(() async {
       final bytes = await _service.exportPackage(p.id);
       final fileName = '${p.name.replaceAll(RegExp(r'[^\w\- ]'), '_')}.${ProjectService.packageExtension}';
-      final path = await FilePicker.platform.saveFile(
+      // file_picker 11 writes [bytes] itself on Android/iOS.
+      final Object? target = await FilePicker.saveFile(
         dialogTitle: s.exportProject,
         fileName: fileName,
         bytes: bytes,
       );
-      if (path == null) return; // cancelled
+      if (target == null) return; // cancelled
       if (!Platform.isAndroid && !Platform.isIOS) {
+        final path = target is Uri ? target.toFilePath() : target.toString();
         await File(path).writeAsBytes(bytes, flush: true);
       }
       if (mounted) _snack(s.projectExported);
@@ -135,7 +137,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _import() async {
     final s = context.sRead;
     await _guard(() async {
-      final result = await FilePicker.platform.pickFiles(type: FileType.any, withData: true);
+      final result = await FilePicker.pickFiles(type: FileType.any, withData: true);
       if (result == null || result.files.isEmpty) return;
       final f = result.files.first;
       Uint8List? bytes = f.bytes;
