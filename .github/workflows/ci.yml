@@ -31,7 +31,7 @@ jobs:
         run: flutter --version
 
       - name: Get dependencies
-        run: flutter pub get
+        run: flutter pub get && flutter pub deps --style=compact | grep -E "file_picker|sqflite |archive|provider"
 
       - name: Static analysis
         run: flutter analyze --no-fatal-infos
