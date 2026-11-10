@@ -119,7 +119,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     await _guard(() async {
       final bytes = await _service.exportPackage(p.id);
       final fileName = '${p.name.replaceAll(RegExp(r'[^\w\- ]'), '_')}.${ProjectService.packageExtension}';
-      // file_picker 11 writes [bytes] itself on Android/iOS.
+      // file_picker writes [bytes] itself on Android/iOS.
       final Object? target = await FilePicker.saveFile(
         dialogTitle: s.exportProject,
         fileName: fileName,
@@ -137,12 +137,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Future<void> _import() async {
     final s = context.sRead;
     await _guard(() async {
-      final result = await FilePicker.pickFiles(type: FileType.any, withData: true);
-      if (result == null || result.files.isEmpty) return;
-      final f = result.files.first;
-      Uint8List? bytes = f.bytes;
-      if (bytes == null && f.path != null) bytes = await File(f.path!).readAsBytes();
-      if (bytes == null) return;
+      final file = await FilePicker.pickFile(type: FileType.any);
+      if (file == null) return; // cancelled
+      final Uint8List bytes = await file.readAsBytes();
       await _service.importPackage(bytes);
       if (mounted) _snack(s.projectImported);
     });
