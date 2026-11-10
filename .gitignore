@@ -1,0 +1,19 @@
+# Flutter / Dart
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/
+# Generated platform folders are created in CI until Phase 6 customises them
+android/
+ios/
+linux/
+macos/
+windows/
+web/
+.metadata
